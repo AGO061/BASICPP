@@ -1,6 +1,6 @@
-# CUSTOM BASIC CODE -> BASIC V2.
+# BASIC++
 
-Use new and simple features to make your basic application!
+Use new and simple features to make your PET BASIC V2 Application!
 
 ## Currently the compiler supports:
 ### Constants
