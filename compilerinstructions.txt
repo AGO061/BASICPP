@@ -256,17 +256,19 @@ give an error because line 10 does not exist.
 
 you can, of course, change this!
 just run the compiler with the -ur flag!
-compile.py file.bas -ur
-
+C64Compiler.exe/.py file.bas <-ur or --userem>
 
 if you wish to automatically put in a newline instead of the :, then use the flag -rmc
-compile.py file.bas -rmc
-
+C64Compiler.exe/.py file.bas <-rmc or --removecolon>
 
 if you wish to keep comments in your code, use the flag -kc
-compile.py file.bas -kc
+C64Compiler.exe/.py file.bas <-kc or --keepcomments>
 
+if you wish to add the run at the end of your code, use the flag -r
+C64Compiler.exe/.py file.bas <-r or --run>
 
+if you dont want the compiler to halt at the end, use the flag -ne
+C64Compiler.exe/.py file.bas <-ne or --noerrors>
 
 SPECIAL USES:
 the constant, is actually just a piece of text that gets replaced and you can use some tricks

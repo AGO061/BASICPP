@@ -14,25 +14,19 @@ except:
 
 print("Parsing flags...")
 
-if "-ur" in sys.argv:
-    userem=True
-else:
-    userem=False
 
-if "-rmc" in sys.argv:
-    usecolumn=False
-else:
-    usecolumn=True
+userem="-ur" in sys.argv or "--userem" in sys.argv
+usecolumn= not ("-rmc" in sys.argv or "--removecolon" in sys.argv)
+keepcomments="-kc" in sys.argv or "--keepcomments" in sys.argv
+run="-r" in sys.argv or "--run" in sys.argv
+printerrors= not ("-ne" in sys.argv or "--noerrors" in sys.argv)
 
-if "-kc" in sys.argv:
-    keepcomments=True
-else:
-    keepcomments=False
 
 print("Running first parse...")
 f=open(fl,"r")
 code=f.read()
 f.close()
+print("Parsing functions...")
 functions={}
 result = re.findall('///{(.*?)}///', code,flags=re.S)
 funcnum=code.count("///{")
@@ -140,8 +134,10 @@ for line in code:
         out.write(str(i*step)+" "+line+"\n")
         i+=1
     
-    
+if run:
+    out.write("run\n")
 
 out.close()
 
-input("Compilation complete! Errors:"+str(errors))
+if printerrors: input("Compilation complete! Errors:"+str(errors))
+else: exit("Compilation complete! Errors:"+str(errors))
