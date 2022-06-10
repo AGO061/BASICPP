@@ -112,137 +112,30 @@ COMPILED
 
 
 ---------------------
-Bigger examples:
+///FLAGS:<flag> <flag> ... -> Flags definition in the file
 
-Tree.bas:
-///.a
-input "size 3-7";s
-rem check for overflow
-if s<3 goto a
-if s>7 goto a
-rem build the tree itself
-for c=1 to s
-    for e=0 to s-c
-        print " ";
-    next e
-    for a=1 to (c-1)*2+1
-    rem i write the star on top and the leaves
-        if c=1 then print "+";
-        if c<>1 then print "*";
-    next a
-    print " "
-    next c
-rem here i add the log
-for c=1 to s
-print " ";
-next c
-print "#"
+This is a special command, it only works if it is in the FIRST line of a file.bas
+It allows you to define flags for that program ignoring the command line ones
+(This command is not mandatory, in case this line is not found, the compiler will use the console args)
+Putting this command anywhere else in the file, will result in it getting removed.
 
-COMPILER RESULT:
-10 input "size 3-7";s
-20 if s<3 goto 10
-30 if s>7 goto 10
-40 for c=1 to s
-50 for e=0 to s-c
-60 print " ";
-70 next e
-80 for a=1 to (c-1)*2+1
-90 if c=1 then print "+";
-100 if c<>1 then print "*";
-110 next a
-120 print " "
-130 next c
-140 for c=1 to s
-150 print " ";
-160 next c
-170 print "#"
+EXAMPLE:
+SOURCE
+///FLAGS:-r -kc
 
+///,teststring="This is just a test for flags"
+rem this comment should stay
+print ///teststring///
+rem and here there should be a run
 
+COMPILED
 
-Movement.bas (compiled with -ur):
-///,emptychar=32
-p%=0
-print chr$(147)
-///.input
-add%=0
-in%=peek(56320)
+10 rem this comment should stay
+20 print "This is just a test for flags"
+30 rem and here there should be a run
+run
 
-
-rem input handler
-if in%=119 then add%=1:poke 1024+p%,///emptychar///
-if in%=123 then add%=-1:poke 1024+p%,///emptychar///
-if in%=125 then add%=40:poke 1024+p%,///emptychar///
-if in%=126 then add%=-40:poke 1024+p%,///emptychar///
-
-p%=p%+add%
-
-if p%>999 then p%=p%-add%
-if p%<0 then p%=p%-add%
-
-rem exiting the program
-if in%=111 then goto end
-poke 1024+p%,0
-goto input
-
-///.end
-
-COMPILER RESULT:
-10 p%=0
-20 print chr$(147)
-30 rem input
-40 add%=0
-50 in%=peek(56320)
-60 if in%=119 then add%=1:poke 1024+p%,32
-70 if in%=123 then add%=-1:poke 1024+p%,32
-80 if in%=125 then add%=40:poke 1024+p%,32
-90 if in%=126 then add%=-40:poke 1024+p%,32
-100 p%=p%+add%
-110 if p%>999 then p%=p%-add%
-120 if p%<0 then p%=p%-add%
-130 if in%=111 then goto 160
-140 poke 1024+p%,0
-150 goto 30
-160 rem end
-
-
-
-Maze.bas:
-///,clearscreen=print chr$(147);
-rem print chr$(205+int(rnd(1)*2));
-
-rem the chance of a wall spawning 1/10
-p=9
-input "wall rate";p
-///clearscreen///
-for y=0 to 24
-    for x=0 to 39
-        a=int((rnd(1)*p))
-        b=1
-        if a<>0 then b=0
-        rem printing random characters
-        poke 1024+x+40*y,77+int(rnd(1)*2)
-        poke 55296+x+40*y,int(b*int(peek(53281)))
-    next x
-next y
-
-for a=0 to 3000
-next a
-
-COMPILER RESULT:
-10 p=9
-20 input "wall rate";p
-30 print chr$(147);
-40 for y=0 to 24
-50 for x=0 to 39
-60 a=int((rnd(1)*p))
-70 b=1
-80 if a<>0 then b=0
-90 poke 1024+x+40*y,77+int(rnd(1)*2)
-100 poke 55296+x+40*y,int(b*int(peek(53281)))
-110 next x
-120 next y
-130 for a=0 to 3000
-140 next a
+---------------------
 
 FLAGS:
 
@@ -260,6 +153,7 @@ C64Compiler.exe/.py file.bas <-ur or --userem>
 
 if you wish to automatically put in a newline instead of the :, then use the flag -rmc
 C64Compiler.exe/.py file.bas <-rmc or --removecolon>
+(not recommended)
 
 if you wish to keep comments in your code, use the flag -kc
 C64Compiler.exe/.py file.bas <-kc or --keepcomments>

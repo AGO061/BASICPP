@@ -13,13 +13,20 @@ except:
     exit()
 
 print("Parsing flags...")
+with open(fl) as f:
+    args = f.readline().rstrip()
+if "///FLAGS:" in args:
+    print("Found args in file, ignoring command line flags")
+    args=args.replace("///FLAGS:","").split(" ")
+else:
+    args=sys.argv
 
 
-userem="-ur" in sys.argv or "--userem" in sys.argv
-usecolumn= not ("-rmc" in sys.argv or "--removecolon" in sys.argv)
-keepcomments="-kc" in sys.argv or "--keepcomments" in sys.argv
-run="-r" in sys.argv or "--run" in sys.argv
-printerrors= not ("-ne" in sys.argv or "--noerrors" in sys.argv)
+userem="-ur" in args or "--userem" in args
+usecolumn= not ("-rmc" in args or "--removecolon" in args)
+keepcomments="-kc" in args or "--keepcomments" in args
+run="-r" in args or "--run" in args
+printerrors= not ("-ne" in args or "--noerrors" in args)
 
 
 print("Running first parse...")
@@ -39,7 +46,7 @@ for i in result:
 
 
 #first parse, for stuff that has to change before parsing
-code=code.replace("\n","§ò*§").split("§ò*§")
+code=code.split("\n")
 c=[]
 for line in code:
     for func in functions:
@@ -52,7 +59,7 @@ code="\n".join(c)
 
 
 if usecolumn:
-    code=code.replace("\n","§ò*§").split("§ò*§")
+    code=code.split("\n")
 else:
     code=code.replace("\n","§ò*§").replace(":","§ò*§").split("§ò*§")
 i=1
@@ -74,6 +81,8 @@ print("Running second parse...")
 for line in code: # adding bases and lines
     line=line.lstrip(' ') #removing the indents
 
+    
+
     if line.startswith("///."):
             bases.append(line.split("///.")[1])
             lines.append(i*step)
@@ -82,6 +91,7 @@ for line in code: # adding bases and lines
     
     if line=="":
         pass
+
 
     elif line.startswith("///,"):
         constants[line.replace("///,","").split("=",1)[0]]=line.replace("///,","").split("=",1)[1]
@@ -123,7 +133,11 @@ for line in code:
     
     elif line.startswith("///,"):
         pass
+    
+    elif "///FLAGS:" in line:
+        pass
 
+    
     elif line.startswith("///;"):
         i+=int(line.split("///;")[1])
 
