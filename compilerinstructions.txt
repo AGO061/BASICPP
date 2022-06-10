@@ -1,0 +1,282 @@
+
+CUSTOM INSTRUCTIONS:
+
+///;<integer> -> defines the number of lines to skip (lines are always in steps of 10)
+EXAMPLE:
+SOURCE
+
+print "a"
+
+///;10
+
+print "b"
+
+COMPILED
+
+10 print "a"
+110 print "b"
+
+--------------------
+
+rem <string> -> all comments are removed if they are not inline
+
+EXAMPLE:
+SOURCE
+
+print "a"
+
+rem print b
+
+print "b"
+
+COMPILED
+
+10 print "a"
+20 print "b"
+
+--------------------
+
+///,<name>=<value> -> constant definition
+
+EXAMPLE:
+SOURCE
+///,hw="hello world"
+///,p1="This is
+///,p2= a test"
+
+rem use ///<name>/// to replace the text with the value
+print ///hw///
+print ///p1//////p2///
+
+COMPILED
+
+10 print "hello world"
+20 print "This is a test"
+
+---------------------
+
+///.<string> -> GOTO POINTER
+
+this is a movable goto pointer, that allows the user to goto the point where the instruction under the string is located
+
+EXAMPLE:
+SOURCE
+
+///.a
+print "a"
+
+goto a
+
+print "b"
+
+COMPILED
+
+10 print "a"
+20 goto 10
+30 print "b"
+
+---------------------
+///{<name>
+<code>
+}/// -> Function
+
+This feature allows users to make custom functions to speed up repetitive tasks
+
+EXAMPLE:
+SOURCE
+
+///,constant="constant content"
+
+///{helloworld
+print "hello world"
+}///
+
+///{constinfunc
+print ///constant///
+}///
+
+
+rem to use a function, just use it the same way you would use a constant
+///helloworld///
+///constinfunc///
+
+COMPILED
+
+10 print "hello world"
+20 print "constant content"
+
+
+---------------------
+Bigger examples:
+
+Tree.bas:
+///.a
+input "size 3-7";s
+rem check for overflow
+if s<3 goto a
+if s>7 goto a
+rem build the tree itself
+for c=1 to s
+    for e=0 to s-c
+        print " ";
+    next e
+    for a=1 to (c-1)*2+1
+    rem i write the star on top and the leaves
+        if c=1 then print "+";
+        if c<>1 then print "*";
+    next a
+    print " "
+    next c
+rem here i add the log
+for c=1 to s
+print " ";
+next c
+print "#"
+
+COMPILER RESULT:
+10 input "size 3-7";s
+20 if s<3 goto 10
+30 if s>7 goto 10
+40 for c=1 to s
+50 for e=0 to s-c
+60 print " ";
+70 next e
+80 for a=1 to (c-1)*2+1
+90 if c=1 then print "+";
+100 if c<>1 then print "*";
+110 next a
+120 print " "
+130 next c
+140 for c=1 to s
+150 print " ";
+160 next c
+170 print "#"
+
+
+
+Movement.bas (compiled with -ur):
+///,emptychar=32
+p%=0
+print chr$(147)
+///.input
+add%=0
+in%=peek(56320)
+
+
+rem input handler
+if in%=119 then add%=1:poke 1024+p%,///emptychar///
+if in%=123 then add%=-1:poke 1024+p%,///emptychar///
+if in%=125 then add%=40:poke 1024+p%,///emptychar///
+if in%=126 then add%=-40:poke 1024+p%,///emptychar///
+
+p%=p%+add%
+
+if p%>999 then p%=p%-add%
+if p%<0 then p%=p%-add%
+
+rem exiting the program
+if in%=111 then goto end
+poke 1024+p%,0
+goto input
+
+///.end
+
+COMPILER RESULT:
+10 p%=0
+20 print chr$(147)
+30 rem input
+40 add%=0
+50 in%=peek(56320)
+60 if in%=119 then add%=1:poke 1024+p%,32
+70 if in%=123 then add%=-1:poke 1024+p%,32
+80 if in%=125 then add%=40:poke 1024+p%,32
+90 if in%=126 then add%=-40:poke 1024+p%,32
+100 p%=p%+add%
+110 if p%>999 then p%=p%-add%
+120 if p%<0 then p%=p%-add%
+130 if in%=111 then goto 160
+140 poke 1024+p%,0
+150 goto 30
+160 rem end
+
+
+
+Maze.bas:
+///,clearscreen=print chr$(147);
+rem print chr$(205+int(rnd(1)*2));
+
+rem the chance of a wall spawning 1/10
+p=9
+input "wall rate";p
+///clearscreen///
+for y=0 to 24
+    for x=0 to 39
+        a=int((rnd(1)*p))
+        b=1
+        if a<>0 then b=0
+        rem printing random characters
+        poke 1024+x+40*y,77+int(rnd(1)*2)
+        poke 55296+x+40*y,int(b*int(peek(53281)))
+    next x
+next y
+
+for a=0 to 3000
+next a
+
+COMPILER RESULT:
+10 p=9
+20 input "wall rate";p
+30 print chr$(147);
+40 for y=0 to 24
+50 for x=0 to 39
+60 a=int((rnd(1)*p))
+70 b=1
+80 if a<>0 then b=0
+90 poke 1024+x+40*y,77+int(rnd(1)*2)
+100 poke 55296+x+40*y,int(b*int(peek(53281)))
+110 next x
+120 next y
+130 for a=0 to 3000
+140 next a
+
+FLAGS:
+
+for optimization purposes, by default, the ///. will not be replaced by a rem, BUT this makes stuff like this:
+///.a
+///;10
+print "a"
+goto a
+
+give an error because line 10 does not exist.
+
+you can, of course, change this!
+just run the compiler with the -ur flag!
+compile.py file.bas -ur
+
+
+if you wish to automatically put in a newline instead of the :, then use the flag -rmc
+compile.py file.bas -rmc
+
+
+if you wish to keep comments in your code, use the flag -kc
+compile.py file.bas -kc
+
+
+
+SPECIAL USES:
+the constant, is actually just a piece of text that gets replaced and you can use some tricks
+///,win=print "you win"
+///,lose=print "you lose"
+///,checkwin=if w%=0 then
+///,checklose=if w%=1 then
+///,randbit=int(rnd(1)*2)
+
+rem these look a bit like functions
+w%=///randbit///
+///checkwin/// ///win///
+///checklose/// ///lose///
+
+COMPILER RESULT:
+10 w%=int(rnd(1)*2)
+20 if w%=0 then print "you win"
+30 if w%=1 then print "you lose"
