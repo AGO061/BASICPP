@@ -11,3 +11,5 @@ Use new and simple features to make your PET BASIC V2 Application!
 _____
 ## About the examples:
 In those where flags are not set, please do not use any flags. (you can use -r)
+_____
+# Check out the [WIKI](https://github.com/AGO061/BASICPP/wiki) for instructions
