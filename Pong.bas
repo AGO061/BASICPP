@@ -9,12 +9,21 @@
 ///,scr=1024
 ///,sy=25
 ///,winpoints=5
-
+///,bg1=53280
+///,bg2=53281
+///,txt=646
+///,black=0
+///,white=1
+///,blue=6
+///,lblue=14
 ///{cls
 print chr$(147)
 }///
 
-
+rem set up the screen colors
+poke ///bg1///,///white///
+poke ///bg2///,///black///
+poke ///txt///,///white///
 rem clear the screen
 ///cls///
 
@@ -138,5 +147,9 @@ print "right player wins"
 goto end
 
 ///.end
+rem reset the screen colors
+poke ///bg1///,///lblue///
+poke ///bg2///,///blue///
+poke ///txt///,///lblue///
 print " "
 print "made by ago061 10/06/2022"
