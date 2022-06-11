@@ -1,15 +1,16 @@
 import sys
 import re
 errors=0
+warnings=0
 step=10
 
 try:
     fl=sys.argv[1]
-    if not fl.split(".")[1]=="bas":
-        input("Only .bas files are accepted")
+    if not fl.split(".")[1]=="bpp":
+        input("Please choose a .bpp file to compile")
         exit()
 except:
-    input("Please choose a .bas file to compile")
+    input("Please choose a .bpp file to compile")
     exit()
 
 print("Parsing flags...")
@@ -38,7 +39,7 @@ functions={}
 result = re.findall('///{(.*?)}///', code,flags=re.S)
 funcnum=code.count("///{")
 if not funcnum==code.count("}///"):
-    print("One or more functions were not closed or opened")
+    print("ERROR: One or more functions were not closed or opened")
     errors+=1
 for i in result:
     functions[i.split("\n",1)[0]]=i.split("\n",1)[1]
@@ -64,11 +65,11 @@ else:
     code=code.replace("\n","§ò*§").replace(":","§ò*§").split("§ò*§")
 i=1
 
-out=open(fl.split(".")[0]+".cbas","w")
+out=open(fl.split(".")[0]+".bas","w")
 out.write("")
 out.close()
 
-out=open(fl.split(".")[0]+".cbas","a")
+out=open(fl.split(".")[0]+".bas","a")
 
 bases=[]
 lines=[]
@@ -106,7 +107,7 @@ for line in code: # adding bases and lines
     else:
         i+=1
 
-
+c=1
 i=1
 print("Parsing code...")
 for line in code:
@@ -120,6 +121,8 @@ for line in code:
     for const in constants: #parse constants
         if f"///{const}///" in line:
             line=constants[const].join(line.split(f"///{const}///"))
+    
+    
 
     if line=="":
         pass
@@ -144,14 +147,20 @@ for line in code:
     elif line.startswith("rem") and not keepcomments:
         pass
 
+    elif "///" in line:
+        print("ERROR: There was an error processing all the compiler commands! at line:",c)
+        errors+=1
+
     else:
         out.write(str(i*step)+" "+line+"\n")
         i+=1
+    c+=1
     
 if run:
     out.write("run\n")
 
 out.close()
 
-if printerrors: input("Compilation complete! Errors:"+str(errors))
-else: exit("Compilation complete! Errors:"+str(errors))
+outp="Compilation complete! Errors:"+str(errors)+" Warnings: "+str(warnings)
+if printerrors: input(outp)
+else: exit(outp)
