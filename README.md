@@ -10,5 +10,4 @@ Use new and simple features to make your PET BASIC V2 Application!
 ### GOTO Pointers
 _____
 ## About the examples:
-I'll try to make the examples work with all flags (it might not be 100% possible)
-In the next update i'll try to add flags to the files
+In those where flags are not set, please do not use any flags. (you can use -r)
