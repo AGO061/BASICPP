@@ -1,0 +1,70 @@
+rem clear the screen
+?chr$(147)
+?"rock raper scissors c64"
+///.begin
+
+b%=int(rnd(1)*3)+1
+a%=0
+input "r,p,s";i$
+if i$="r" then a%=1 
+if i$="p" then a%=2
+if i$="s" then a%=3
+
+?"the bot is choosing"
+
+for tm=0 to 2000
+    rem wait time
+next tm
+
+?"the bot chose...";
+
+for tm=0 to 1000
+    rem still waiting
+next tm
+?""
+if b%=1 then print "rock!"
+if b%=2 then print "paper!"
+if b%=3 then print "scissors!"
+for tm=0 to 500
+    rem a little wait
+next tm
+rem check for win lose or tie
+if a%=b% goto tie
+
+rem lose cases
+
+rem rock vs paper
+if a%=1 and b%=2 goto lose
+rem scissors vs rock
+if a%=3 and b%=1 goto lose
+rem paper vs scissors
+if a%=2 and b%=3 goto lose
+
+rem win cases
+
+rem paper vs rock
+if a%=2 and b%=1 goto win
+rem scissors vs paper
+if a%=3 and b%=2 goto win
+rem rock vs scissors
+if a%=1 and b%=3 goto win
+
+
+///.win
+input "you win! try again (y/n)";c$
+?chr$(147)
+if c$="y" goto begin
+goto close
+///.lose
+input "you lose! try again (y/n)";c$
+?chr$(147)
+if c$="y" goto begin
+goto close
+///.tie
+input "it's a tie! try again (y/n)";c$
+?chr$(147)
+if c$="y" goto begin
+goto close
+///.close
+?chr$(147)
+?"thanks for playing!"
