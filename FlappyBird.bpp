@@ -1,0 +1,57 @@
+///FLAGS:-r
+rem preparing functions
+///{clear
+print chr$(147)
+}///
+
+
+
+rem setting up the screen
+poke 53280, 0
+poke 53281, 0
+///clear///
+
+
+rem bird is at x=12
+///,birdx=1036
+///,birdxcolor=55308
+///,jumpheight=5
+///,emptychar=96
+///,bird=62
+///,birdcolor=7
+
+by%=13
+py%=by%
+s%=0
+
+
+
+///.cyclestart
+
+///.inputhandler
+if peek(56320)=111 then goto jump
+if peek(56321)=239 then goto jump
+
+///.changeheight
+py%=by%
+by%=by%+s%
+if by%>24 then by%=24
+if by%<0 then by%=0
+
+///.gravity
+if s%<2 then s%=s%+1
+
+///.render
+poke ///birdx///+py%*40,///emptychar///
+poke ///birdx///+by%*40,///bird///
+poke ///birdxcolor///+by%*40,///birdcolor///
+
+
+
+
+
+goto cyclestart
+
+///.jump
+s%=abs(s%)-///jumpheight///
+goto changeheight
