@@ -17,9 +17,11 @@ print("Parsing flags...")
 with open(fl) as f:
     args = f.readline().rstrip()
 if "///FLAGS:" in args:
+    fileflags=True
     print("Found args in file, ignoring command line flags")
     args=args.replace("///FLAGS:","").split(" ")
 else:
+    fileflags=False
     args=sys.argv
 
 
@@ -34,6 +36,7 @@ print("Running first parse...")
 f=open(fl,"r")
 code=f.read()
 f.close()
+
 print("Parsing functions...")
 functions={}
 result = re.findall('///{(.*?)}///', code,flags=re.S)
@@ -48,6 +51,8 @@ for i in result:
 
 #first parse, for stuff that has to change before parsing
 code=code.split("\n")
+if (fileflags):
+    code=code[1:]
 c=[]
 for line in code:
     for func in functions:
@@ -137,7 +142,7 @@ for line in code:
     elif line.startswith("///,"):
         pass
     
-    elif "///FLAGS:" in line:
+    elif line.startswith("///FLAGS:"):
         pass
 
     
