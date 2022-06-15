@@ -1,7 +1,8 @@
-# BASIC++
+# ![BasicLogo](/docs/BasicplusplusLogo2.png)
 
-Use new and simple features to make your PET BASIC V2 Application!
-
+Use new and simple features to make your PET BASIC V2 Application!\
+\
+(The logo is made by me and it's **free** as in freedom)
 ## Currently the compiler supports:
 ### Constants
 ### Functions
