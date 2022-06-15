@@ -9,6 +9,7 @@ print chr$(147)
 rem setting up the screen
 poke 53280, 0
 poke 53281, 0
+poke 646, 1
 ///clear///
 
 
@@ -19,14 +20,32 @@ rem bird is at x=12
 ///,emptychar=96
 ///,bird=62
 ///,birdcolor=7
+///,maxgravity=2
 
 by%=13
 py%=by%
 s%=0
 
+print "          press fire  to start          "
+poke ///birdxcolor///+by%*40,///birdcolor///
+poke ///birdx///+by%*40,///bird///
+
+
+///.asktobegin
+if peek(56320)=111 then goto gamebegin
+if peek(56321)=239 then goto gamebegin
+goto asktobegin
+
+///.gamebegin
+///clear///
+poke ///birdxcolor///+by%*40,///birdcolor///
+poke ///birdx///+by%*40,///bird///
+
 
 
 ///.cyclestart
+
+rem bird management
 
 ///.inputhandler
 if peek(56320)=111 then goto jump
@@ -39,12 +58,16 @@ if by%>24 then by%=24
 if by%<0 then by%=0
 
 ///.gravity
-if s%<2 then s%=s%+1
+if s%<///maxgravity/// then s%=s%+1
 
-///.render
+rem pipe management
+
+
+///.renderbird
 poke ///birdx///+py%*40,///emptychar///
-poke ///birdx///+by%*40,///bird///
 poke ///birdxcolor///+by%*40,///birdcolor///
+poke ///birdx///+by%*40,///bird///
+
 
 
 
