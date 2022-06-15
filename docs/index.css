@@ -6,6 +6,11 @@
     50% {opacity: 1;}
     100% {opacity: 1;}
 }
+
+@keyframes bgcolor {
+    0% {filter: brightness(1);}
+    100% {filter: brightness(0.75);}
+}
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
@@ -54,4 +59,16 @@ span {
     align-items: center;
     margin: 0;
     padding:0;
+}
+
+.toplogo{
+    position:absolute;
+    top:5px;
+    left:5px;
+    image-rendering: crisp-edges;
+    transition: 0.5s;
+}
+.toplogo:hover{
+    animation: bgcolor .3s linear;
+    filter: brightness(0.75);
 }
