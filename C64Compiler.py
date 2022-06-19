@@ -80,7 +80,34 @@ bases=[]
 lines=[]
 
 
-constants={}
+constants={ #setup predefined constants
+    # c64 colors for poking
+    "black":"0",
+    "white":"1",
+    "red":"2",
+    "cyan":"3",
+    "purple":"4",
+    "green":"5",
+    "blue":"6",
+    "yellow":"7",
+    "orange":"8",
+    "brown":"9",
+    "lightred":"10",
+    "darkgray":"11",
+    "gray":"12",
+    "lightgreen":"13",
+    "lightblue":"14",
+    "lightgray":"15",
+    #c64 color address
+    "txtcolor":"646",
+    "framecolor":"53280",
+    "bgcolor":"53281",
+    #screen memory addresses
+    "charmemory":"1024",
+    "colormemory":"55296",
+    #useful functions
+    "clear":"print chr$(147)"
+}
 
 print("Running second parse...")
 
@@ -166,6 +193,6 @@ if run:
 
 out.close()
 
-outp="Compilation complete! Errors:"+str(errors)+" Warnings: "+str(warnings)
+outp="Compilation complete! Errors: "+str(errors)+" Warnings: "+str(warnings)
 if printerrors: input(outp)
 else: exit(outp)
