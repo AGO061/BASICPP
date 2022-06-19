@@ -57,6 +57,7 @@ async function RunCommand(cmd){
         $("#console").append("<p>• FUNCTIONS</p>");
         $("#console").append("<p>• GOTOPOINTERS</p>");
         $("#console").append("<p>• USECONSTANDFUNC</p>");
+        $("#console").append("<p>• PREDEFINEDCONSTANTS</p>");
     }
     else if (cmd.startsWith("CLEAR")) {
         await Clear();
@@ -74,6 +75,7 @@ async function RunCommand(cmd){
             $("#console").append("<p>• FUNCTIONS</p>");
             $("#console").append("<p>• GOTOPOINTERS</p>");
             $("#console").append("<p>• USECONSTANDFUNC</p>");
+            $("#console").append("<p>• PREDEFINEDCONSTANTS</p>");
         }
         else if (cmd2=="CONSTANTS") {
             $("#console").append("<p>OPENING WIKI...</p>");
@@ -107,6 +109,10 @@ async function RunCommand(cmd){
             $("#console").append("<p>OPENING WIKI...</p>");
             window.open("https://github.com/AGO061/BASICPP/wiki#name---use-functionsconstants---since-r1", "_blank");
         }
+        else if (cmd2="PREDEFINEDCONSTANTS") {
+            $("#console").append("<p>OPENING WIKI...</p>");
+            window.open("https://github.com/AGO061/BASICPP/wiki#predefined-constants---since-r4", "_blank");
+        }
 
         else {
             $("#console").append("<p>⠀</p>");
@@ -119,6 +125,7 @@ async function RunCommand(cmd){
             $("#console").append("<p>• FUNCTIONS</p>");
             $("#console").append("<p>• GOTOPOINTERS</p>");
             $("#console").append("<p>• USECONSTANDFUNC</p>");
+            $("#console").append("<p>• PREDEFINEDCONSTANTS</p>");
         }
         } else {
         $("#console").append("<p>?SYNTAX ERROR</p>");
