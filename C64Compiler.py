@@ -3,15 +3,18 @@ import re
 errors=0
 warnings=0
 step=10
+def quit(status=""):
+    print(u"\u001b[31m"+status+"\u001b[0m")
+    sys.exit()
 
 try:
     fl=sys.argv[1]
     if not fl.split(".")[1]=="bpp":
         input("Please choose a .bpp file to compile")
-        exit()
+        quit("Error: No file chosen") 
 except:
     input("Please choose a .bpp file to compile")
-    exit()
+    quit("Error: No file chosen")
 
 print("Parsing flags...")
 with open(fl) as f:
@@ -193,6 +196,6 @@ if run:
 
 out.close()
 
-outp="Compilation complete! Errors: "+str(errors)+" Warnings: "+str(warnings)
+outp="\u001b[32mCompilation complete! \u001b[31mErrors: "+str(errors)+" \u001b[33mWarnings: "+str(warnings)
 if printerrors: input(outp)
-else: exit(outp)
+else: quit(outp)
