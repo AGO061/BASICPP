@@ -1,0 +1,19 @@
+///FLAGS: -ne -r
+///.Setup
+rem string user char input
+i$=""
+rem int user char input
+c%=0
+rem string program input
+u$=""
+
+input "user input:";u$
+///.GetInput
+get i$
+if i$="" then goto GetInput
+c%=asc(i$)
+///.CharFixing
+if c%=91 or c%=93 then c%=c%-64
+
+
+poke 1024+998,c%
