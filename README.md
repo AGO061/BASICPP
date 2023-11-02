@@ -1,6 +1,7 @@
 # ![BasicLogo](/docs/BasicplusplusLogo2.png)
 
 Use new and simple features to make your PET BASIC V2 Application!\
+Now avaliable on [Replit](https://replit.com/@EnricoAgostini/BASICPP-WEB)!\
 \
 (The logo is made by me and it's **free** as in freedom)
 ## Currently the compiler supports:
