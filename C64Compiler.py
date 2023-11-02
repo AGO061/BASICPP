@@ -140,7 +140,7 @@ for i in result:
   code = code.replace(i[0], "")
 
 # Now find the remaining usages and return an error if there are any undefined calls
-result = re.findall('///([^.,;].*)///', code)
+result = re.findall('///([^.,;].*?)///', code)
 
 for i in result:
   try:
