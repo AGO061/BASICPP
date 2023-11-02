@@ -42,13 +42,16 @@ try:
   infile = sys.argv[1]
   if infile.split(".")[-1] != "bpp":
     quit("Error: Wrong file extension", 2)
-except (IndexError, FileNotFoundError):
+except IndexError:
   quit("Error: No file chosen", 1)
 
 print("Parsing flags...")
-
-with open(infile) as f:
-  args = f.readline().rstrip()
+args = ""  # to avoid errors in the code
+try:
+  with open(infile) as f:
+    args = f.readline().rstrip()
+except FileNotFoundError:
+  quit("Error: No file chosen", 1)
 
 if "///FLAGS:" in args:
   programdata["fileflags"] = True
@@ -163,8 +166,8 @@ outname = ".".join(infile.split(".")[:-1]) + ".bas"
 with open(outname, "w") as outfile:  # wipe output file before use
   outfile.write("")
 for line in code:
-  line.lstrip(" \t")  # remove indentation
-  line.rstrip(" \t")  # remove right spaces
+  line = line.lstrip(" \t")  # remove indentation
+  line = line.rstrip(" \t")  # remove right spaces
 
   if line == "":
     pass
@@ -200,6 +203,9 @@ for line in code:
 
     # Write to file
     if line.rstrip(" \t") != "":
+      # second strip pass
+      line = line.rstrip(" \t")
+      line = line.lstrip(" \t")
       with open(outname, "a") as out:
         out.write(str(currentline) + " " + line + "\n")
       currentline += programdata["step"]
