@@ -1,0 +1,31 @@
+rem Made for R5 Beta
+rem logic constants
+///,min = 3
+///,max = 8
+rem visual constants
+///,starcharacter = "+"
+///,leafcharacter = "*"
+///,logcharacter = "#"
+///,spacecharacter = " "
+
+input "size ///min///-///max///";s ///.begin
+rem check for overflow
+if s<///min/// goto begin
+if s>///max/// goto begin
+rem build the tree itself
+for c=1 to s
+    for e=0 to s-c
+        print ///spacecharacter///;
+    next e
+    for a=1 to (c-1)*2+1
+    rem i write the star on top and the leaves
+        if c=1 then print ///starcharacter///;
+        if c<>1 then print ///leafcharacter///;
+    next a
+    print ///spacecharacter///
+    next c
+rem here i add the log
+for c=1 to s
+print ///spacecharacter///;
+next c
+print ///logcharacter///
