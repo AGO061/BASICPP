@@ -132,7 +132,10 @@ programdata["constants"] = {  #setup predefined constants
     "charmemory": "1024",
     "colormemory": "55296",
     #useful functions
-    "clear": "print chr$(147)"
+    "clear": "? chr$(147)",
+    "run": "? chr$(131)",
+    "lower": "? chr$(14)",
+    "upper": "? chr$(142)"
 }
 
 # find all the constant definitions using regex
