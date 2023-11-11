@@ -1,17 +1,11 @@
 ///FLAGS:-r
 rem preparing functions
-///{clear
-print chr$(147)
-}///
-
-
 
 rem setting up the screen
-poke 53280, 0
-poke 53281, 0
-poke 646, 1
+poke ///framecolor///, ///black///
+poke ///bgcolor///, ///black///
+poke ///txtcolor///, ///white///
 ///clear///
-
 
 rem bird is at x=12
 ///,birdx=1036
@@ -19,7 +13,7 @@ rem bird is at x=12
 ///,jumpheight=5
 ///,emptychar=96
 ///,bird=62
-///,birdcolor=7
+///,birdcolor=7 rem set the bird color to yellow
 ///,maxgravity=2
 
 by%=13
@@ -30,7 +24,7 @@ print "          press fire  to start          "
 poke ///birdxcolor///+by%*40,///birdcolor///
 poke ///birdx///+by%*40,///bird///
 
-
+rem read start input
 ///.asktobegin
 if peek(56320)=111 then goto gamebegin
 if peek(56321)=239 then goto gamebegin
